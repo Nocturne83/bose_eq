@@ -115,6 +115,8 @@ def main():
     args = ap.parse_args()
 
     mac = args.mac.strip().upper().replace("-", ":")
+    if re.fullmatch(r"[0-9A-F]{12}", mac):
+        mac = ":".join(mac[i:i + 2] for i in range(0, 12, 2))
     if not re.fullmatch(r"([0-9A-F]{2}:){5}[0-9A-F]{2}", mac):
         sys.exit("That doesn't look like a Bluetooth address. Expected AA:BB:CC:DD:EE:FF.")
 
