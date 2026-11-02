@@ -1,7 +1,7 @@
 """Hush write test for Bose QC Ultra Headphones (2nd Gen) on Windows.
 
 THIS SCRIPT BRIEFLY CHANGES SETTINGS, THEN PUTS THEM BACK.
-It asks you to type YES before it changes anything.
+It asks you to type yes before it changes anything.
 
 What it does:
   1. Reads and remembers your current mode and EQ.
@@ -169,7 +169,7 @@ def main():
         sys.exit("\nRESULT: Could not read current settings, so nothing was changed.")
 
     print("\nThis test will switch to Quiet and back, and nudge Bass by 1 step and back.")
-    if input("Type YES to continue: ").strip() != "YES":
+    if input("Type YES to continue: ").strip().lower() not in ("yes", "y", "ja", "j"):
         link.close()
         sys.exit("Cancelled. Nothing was changed.")
 
