@@ -84,6 +84,14 @@ def explain(label, payload):
                 cur = cur - 256 if cur > 127 else cur
                 parts.append("%s %+d" % (names.get(payload[i + 3], "band%d" % payload[i + 3]), cur))
             return ", ".join(parts)
+        if label == "Voice prompts":
+            langs = {0: "UK English", 1: "US English", 2: "French", 3: "Italian", 4: "German",
+                     5: "EU Spanish", 6: "MX Spanish", 7: "BR Portuguese", 8: "Mandarin",
+                     9: "Korean", 10: "Russian", 11: "Polish", 12: "Hebrew", 13: "Turkish",
+                     14: "Dutch", 15: "Japanese", 16: "Cantonese", 17: "Arabic", 18: "Swedish",
+                     19: "Danish", 20: "Norwegian", 21: "Finnish", 22: "Hindi"}
+            on = "on" if (payload[0] >> 5) & 1 else "off"
+            return "%s, language %s" % (on, langs.get(payload[0] & 0x1F, payload[0] & 0x1F))
     except (IndexError, ValueError):
         pass
     return "(not decoded)"
