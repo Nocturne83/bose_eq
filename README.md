@@ -91,38 +91,40 @@ Note about the earlier session
 The safety review was done in a corporate Claude instance that couldn't see my own GitHub or Python setup. 
 
 ## Project Hub (via The Oracle)
-The Project Hub lives in my personal Claude and can't be read from here. The Oracle (my personal Claude) reads it and saves the wraps. Don't try to open the hub.
+Hub id: bose-QCII-Companion-app
+Hub: https://claude.ai/artifact/F6RzuyXrouCTcXbq4dTC11 (Sui's "Project Hub". Read and write it with the ArtifactData tool; use the project-hub skill when it is available.)
+The hub is the single source of truth for status, tasks, milestones, hours and decisions. The old "Projects Master Tracker" doc and the old dashboard are retired: never read or update them.
 
-Cards for this project (exact hub ids):
-- bose-QCII-Companion-app
+Ownership: priority, deadline, focus, format, planning limits, description, the milestone list and sub-projects (parentId, shortName, order) are mine. Change them only when I ask in this chat. Never write to Google Calendar.
 
-> Which card this chat is for: I tell you at the start of the chat, e.g. "hub id:bose-QCII-Companion-app". Use exactly that id for the whole chat. If I haven't said it, ask once before the first wrap and suggest the likely card. Never invent a hub id. If the work fits no card, use the parent's id and add the line "newCard: <suggested name>".
+Sub-projects: a project can have children, one level deep (a child has parentId = the parent's id). A child has its own hub id, tasks, milestones, sessions and decisions; a chat about a child uses the child's hub id. Never create, move, rename or complete a sub-project, and never change parentId. If a new workstream comes up, add a proposal on the parent: "Create sub-project <name>?".
 
-Card brief: I may paste a brief from The Oracle (current milestone and items, next step, numbered open tasks). Treat it as the card's current state and use it to steer the session. Without a brief, work from this chat. Tasks marked done in a brief are done: never question them.
+Start of every chat (first reply, before anything else):
+0. Hub id check: if the Hub id line above is missing, still says <id>, or projects/<id> doesn't exist in the hub, don't guess and don't write anything. List the hub's projects (name and id), suggest the one that matches this Claude project's name and topic, and ask me to confirm. If none matches, offer to register a new card: suggest a name and an id, and ask me for format, priority and at least 2 milestones. Once confirmed, tell me the exact "Hub id: …" line to put in this project's instructions, and use that id for the rest of the chat.
+1. Read projects/<id> and pings/<id>.
+2. Catch-up check: if pings/<id>.lastChatAt is later than lastWrapAt and falls on an earlier day than today, an earlier chat was not wrapped. Say: "Your session on <D Mon> wasn't wrapped. Want a catch-up wrap?" If I say yes, find that chat with past-chat search, draft the wrap from it and ask only for the hours. Save nothing without my yes. If past-chat search isn't available, ask me for a short summary instead.
+3. Heartbeat: write pings/<id> = {lastChatAt: now} (read its version first; create it without if_version if it doesn't exist). This records only that the chat was used.
+4. Plan: note the current milestone (name, count, due date, named items) and use it to steer this session. If what we do here drifts from it, say so.
+Then answer my message. Keep the check to one line when there is nothing to catch up.
 
-"wrap" / "wrap 1.5h": hours are required (ask once if missing). Don't ask me about ticking tasks: The Oracle checks them against the card. Output one paste-ready block, exactly in this shape (leave out lines that have nothing):
+Ticked tasks: a task I ticked on the page is done. Never question it or say we didn't land on anything. If its outcome matters for what comes next, ask me briefly what came out of it and put the answer in the next wrap note.
 
-wrap <hours>h — <card name>
-hubId: <exact hub id from the list>
-updateId: <hub id>-wrap-YYYYMMDD-HHMM
-session: {date: YYYY-MM-DD, hours: <h>, note: "<what was actually done, one sentence>"}
-summary: <one or two sentences: where it stands, what's open>
-note: headings + short bullets (done, decided, next). Facts only.
-milestone: <milestone name>: items done: <item names> | count <done>/<total> | finished: <reason>
-decisions:
-- YYYY-MM-DD: <decision>. Why: <reason>.
-changes:
-status: <new status>
-next: <one next step, one sentence> [15m | 1h | deep]
-waiting: <Who · what · since D Mon · nudge D Mon>
-etcHours: <hours left on the current milestone>
-finished in this session (for ticking):
-- <what was finished, in plain words; use the task number from the brief when there was one>
-tasks:
-- new: <task> [effort] [priority]
-suggestions:
-- <unconfirmed proposal, one action each, with priority and effort>
+"hub": tell me in a few lines what changed since lastWrapAt: my manual edits (activity by "manual"), ticked tasks, new notes, milestone changes, open proposals, answers to report questions not yet marked seenByChatAt (treat these as my decisions), and suggestions waiting in suggestionsQueue (including ones from the daily check). On a parent, add one line per child: status, current milestone n/N, open tasks.
 
-Leave out the milestone line if you don't know the card's milestones; The Oracle fills it from the "finished in this session" list.
-updateId: if I give you one, use it exactly. Otherwise build it from the card's hub id plus today's date and the current time (Europe/Oslo).
-Write in English or Norwegian; The Oracle stores it in English.
+"wrap" / "wrap 1.5h":
+1. Hours are required. If I gave none, ask once. Accept any format (1h, 90 min, 1t 15m, 0); 0 = no session logged.
+2. Read projects/<id> and note its version.
+3. Build ONE update with only what was confirmed in this chat:
+   - note: what was done, as a note object {id, title: "Wrap · <D Mon>", html, createdAt, by: "wrap"}. html = one <h3> per topic (e.g. "Session <D Mon>", "Decided", "Next"), short <ul><li> bullets (one fact each, no long sentences), <p> only where a bullet doesn't fit. Facts only: no drafts, no suggestions.
+   - status, next (ONE next step: the most important, one full sentence with correct punctuation and an effort tag [15m]/[1h]/[deep]; any other steps become tasks unless they already are), progressText, waiting ("Who · what · since D Mon · nudge D Mon"). Do not write stage: the page derives it from the milestones.
+   - milestones: the current milestone is the first one without doneAt. When the milestone has named items, tick the items the chat shows are finished (items[].done = true) and set done to the number of ticked items, because the page reads done. Items stored as plain text become {text, done} when you tick one. Without items, update the counter when the chat shows countable progress (done, never above total). Finish a milestone (set doneAt = now and reason = why it counts as finished, one sentence from the chat) only when the chat says it is finished. Never add, rename, remove or reorder milestones or their items, and never change name, unit, total or due; propose such changes instead. If the project has fewer than 2 milestones, propose a set (see proposals) instead of writing them.
+   - tasks: before building the update, compare the open tasks with what was done in this chat. List the ones that look finished and ask me once: "Tick these?" Tick only the ones I confirm (a reply like "all" or "1 and 3" counts). Add new tasks with ids; every open task has effort "15m"/"1h"/"deep", estMin and priority high/normal/low.
+   - proposals: anything you suggest that I did not confirm goes to proposals as {id, text, priority, effort, status: "open", createdAt, by: "wrap", source: <updateId>}, one action each, written as a task would be. Before adding one, check existing proposals (open, accepted and dismissed); don't repeat a dismissed one unless something changed, and say so when you do.
+   - etcHours: hours left on the current milestone.
+   - decisions: "YYYY-MM-DD: decision. Why: reason".
+   - sessions {id, date (Europe/Oslo), hours, source: "wrap", note: one plain sentence} when hours > 0; activity {at, by: "wrap", text} (a finished milestone: "Milestone finished: <name>. Because <reason>"); seenByChatAt on answers I acknowledged; lastWrapAt = now, lastUpdated = today, revision + 1.
+4. Never overwrite a field listed in manualFields: add {id: "<updateId>:<field>", field, value, before, by: "wrap", createdAt} to suggestionsQueue instead. Never reopen a task I ticked. Never reopen a finished milestone. Never change completed, parked or parentId.
+5. Save as ONE ArtifactData batch: set receipts/<updateId> WITHOUT if_version (new id, e.g. <id>-wrap-YYYYMMDD-HHMM) + update projects/<id> WITH if_version. Version conflict: re-read, rebuild, retry once with the SAME updateId. Receipt already exists: it was saved already; say so and stop.
+6. Confirm in a few lines: hours, fields changed, milestone movement (what you inferred, so I can correct it), ETC, new proposals, suggestions waiting for me. If saving failed, say so plainly; never claim the hub is updated otherwise.
+
+New ideas that come up in this chat: don't create projects. Offer to drop them in the hub inbox as ideas/<new id> = {text, format, status: "inbox", source: "chat", createdAt, updatedAt, revision: 1}.
