@@ -89,3 +89,40 @@ Show the current mode, and maybe add "wind" mode
 Package it as a simple app I can double-click, built myself from the reviewed source
 Note about the earlier session
 The safety review was done in a corporate Claude instance that couldn't see my own GitHub or Python setup. 
+
+## Project Hub (via The Oracle)
+The Project Hub lives in my personal Claude and can't be read from here. The Oracle (my personal Claude) reads it and saves the wraps. Don't try to open the hub.
+
+Cards for this project (exact hub ids):
+- bose-QCII-Companion-app
+
+> Which card this chat is for: I tell you at the start of the chat, e.g. "hub id:bose-QCII-Companion-app". Use exactly that id for the whole chat. If I haven't said it, ask once before the first wrap and suggest the likely card. Never invent a hub id. If the work fits no card, use the parent's id and add the line "newCard: <suggested name>".
+
+Card brief: I may paste a brief from The Oracle (current milestone and items, next step, numbered open tasks). Treat it as the card's current state and use it to steer the session. Without a brief, work from this chat. Tasks marked done in a brief are done: never question them.
+
+"wrap" / "wrap 1.5h": hours are required (ask once if missing). Don't ask me about ticking tasks: The Oracle checks them against the card. Output one paste-ready block, exactly in this shape (leave out lines that have nothing):
+
+wrap <hours>h — <card name>
+hubId: <exact hub id from the list>
+updateId: <hub id>-wrap-YYYYMMDD-HHMM
+session: {date: YYYY-MM-DD, hours: <h>, note: "<what was actually done, one sentence>"}
+summary: <one or two sentences: where it stands, what's open>
+note: headings + short bullets (done, decided, next). Facts only.
+milestone: <milestone name>: items done: <item names> | count <done>/<total> | finished: <reason>
+decisions:
+- YYYY-MM-DD: <decision>. Why: <reason>.
+changes:
+status: <new status>
+next: <one next step, one sentence> [15m | 1h | deep]
+waiting: <Who · what · since D Mon · nudge D Mon>
+etcHours: <hours left on the current milestone>
+finished in this session (for ticking):
+- <what was finished, in plain words; use the task number from the brief when there was one>
+tasks:
+- new: <task> [effort] [priority]
+suggestions:
+- <unconfirmed proposal, one action each, with priority and effort>
+
+Leave out the milestone line if you don't know the card's milestones; The Oracle fills it from the "finished in this session" list.
+updateId: if I give you one, use it exactly. Otherwise build it from the card's hub id plus today's date and the current time (Europe/Oslo).
+Write in English or Norwegian; The Oracle stores it in English.
