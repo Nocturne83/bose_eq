@@ -90,7 +90,7 @@ Package it as a simple app I can double-click, built myself from the reviewed so
 Note about the earlier session
 The safety review was done in a corporate Claude instance that couldn't see my own GitHub or Python setup. 
 
-## Project Hub (via The Oracle)
+## Project Hub
 Hub id: bose-QCII-Companion-app
 Hub: https://claude.ai/artifact/F6RzuyXrouCTcXbq4dTC11 (Sui's "Project Hub". Read and write it with the ArtifactData tool; use the project-hub skill when it is available.)
 The hub is the single source of truth for status, tasks, milestones, hours and decisions. The old "Projects Master Tracker" doc and the old dashboard are retired: never read or update them.
